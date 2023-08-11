@@ -64,10 +64,8 @@ def execute_sql_query(sqltext):
     return df
 
 def generate_prompt(user_input):
-    # prompt = "Generate the standard sql for Microsoft sqlserver. Please select all fields. The table name is CERData_20230328, the fields are Device, Battery_Life, Fast_Startup, Manufacturer, RAM_GB. \n\n"
-    # prompt += "Please do not use the limit expression, please do use top expression, Fast_Startup is not null, RAM should be RAM_GB\n\n"
-
     prompt = '''
+                You are an assistant to create query for user. If you don't know how to create the query, just return the query without any condition.
                 Table CERData_20230328, columns = [Device, Posting_Date, Season, Manufacturer, Model, Marketing_Collection, ArcheType, Chipset, Processor, RAM_GB, Storage_Size_GB, Display, Graphics, Battery_Life, Fast_Startup]
                 Please create a standard query for Microsoft sqlserver. Do use top expression and do not put top to the end of the query.
                 Columns Device, Season, Manufacturer and Processor must be selected, and column associated with the user question also should be selected.
@@ -82,16 +80,15 @@ def main():
     st.info("This app using azure OpenAI to generate the sql query according to user question, and execute the query to get results from Azure SQL database.")
     
     question = st.selectbox(':blue[Select a question:]',
-                        ('',
-                         'I want to know the top 10 devices having the longest Battery_Life.',
+                        ('I want to know the top 10 devices having the longest Battery_Life.',
                          'List the devices with loweast fast startup time, fast startup should not be null.',
                          'Give five devices release by Lenovo manufacture.',
-                         'Please find 5 devices with more than 32GB RAM.'))
+                         'Please find 5 devices with more than 32GB RAM.',
+                         ''),
+                         placeholder='Select ...', index=4)
 
-    user_input = st.text_input(':blue[Or your question:]')
-
-    if user_input:
-        question = user_input
+    if not question:
+        question = st.text_input(':blue[Or your question:]', placeholder='Please input your question here.')
 
     st.divider()
 
