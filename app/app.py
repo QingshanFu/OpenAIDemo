@@ -11,7 +11,7 @@ def generate_sql_text(prompt):
     openai.api_type = "azure"
     openai.api_base = "https://qingshanopenaitest.openai.azure.com/"
     openai.api_version = "2022-12-01"
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = "dfd3034b1b7d4806b0dde842b353d6b7"
 
     response = openai.Completion.create(
         engine="text-davinci-003",
