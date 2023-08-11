@@ -80,20 +80,20 @@ def main():
     st.info("This app using azure OpenAI to generate the sql query according to user question, and execute the query to get results from Azure SQL database.")
     
     question = st.selectbox(':blue[Select a question:]',
-                        ('I want to know the top 10 devices having the longest Battery_Life.',
+                        ('---Input your own question or select one---',
+                         'I want to know the top 10 devices having the longest Battery_Life.',
                          'List the devices with loweast fast startup time, fast startup should not be null.',
                          'Give five devices release by Lenovo manufacture.',
-                         'Please find 5 devices with more than 32GB RAM.',
-                         ''),
-                         placeholder='Select ...', index=4)
+                         'Please find 5 devices with more than 32GB RAM.'),
+                         placeholder='Select ...')
 
-    if not question:
+    if question == '---Input your own question or select one---':
         question = st.text_input(':blue[Or your question:]', placeholder='Please input your question here.')
 
     st.divider()
 
     sqltext = ''
-    if question:
+    if question and question != '---Input your own question or select one---':
         prompt = generate_prompt(question)
         sqltext = generate_sql_text(prompt)
         st.write(sqltext)
@@ -102,4 +102,5 @@ def main():
         st.table(execute_sql_query(sqltext))
 
 if __name__ == '__main__':
+    main()
     main()
