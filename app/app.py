@@ -11,7 +11,7 @@ def generate_sql_text(prompt):
     openai.api_type = "azure"
     openai.api_base = "https://qingshanopenaitest.openai.azure.com/"
     openai.api_version = "2022-12-01"
-    openai.api_key = "dfd3034b1b7d4806b0dde842b353d6b7"
+    openai.api_key = "****"
 
     response = openai.Completion.create(
         engine="text-davinci-003",
@@ -39,7 +39,7 @@ def generate_sql_text(prompt):
     return sqltext
 
 def execute_sql_query(sqltext):
-    conn = pymssql.connect('qingshandataserver.database.windows.net', 'CERAdmin', '!!abc123', 'qingshandatabase')
+    conn = pymssql.connect('qingshandataserver.database.windows.net', 'CERAdmin', '****', 'qingshandatabase')
     cursor = conn.cursor(as_dict=True)
 
     cursor.execute(sqltext)
